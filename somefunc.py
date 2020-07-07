@@ -1,15 +1,22 @@
 from random import *
-
+WIDTH = 1000
+HEIGHT = 562  # 1000 * 9 // 16
 
 def rand_color():
     def f(): return randint(1, 255)
     return f(), f(), f()
 
+def rand_pos(x = HEIGHT, y = WIDTH):
+    h = lambda : randint(1,x) 
+    g = lambda: randint(1,y)
+    return h(),g() 
 
 def swing(*a):
     u = 100
     return [v + randint(-u, u) for v in a]
 
+def is_in(x,y):
+    return 0 < x < HEIGHT and 0 < y < WIDTH 
 
 # def change_v(*ac):
 #     p1, p2 = ac
