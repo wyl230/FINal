@@ -164,7 +164,10 @@ def pos_update():
     pass
 
 def update_confront():
+    a = Skill(screen) 
     # the_one.random_walk() 操控的角色抖动 可用来加大难度 
+    if percent(3):
+            a.scherm(the_one.pos())
     for p in opposite:
             p.update()
             p.if_physical_atk(the_one)    
@@ -190,11 +193,15 @@ def update(dt):
         pos_update()
         # return
     if game.confronting:
-        update_confront() 
+        pass 
+        # update_confront() 
         
 def draw_info(screen):
     cur_row = 0 
-    btn = Button(screen,f'wyl hp = {the_one.hp}',(cur_row,0),the_one.hp*3,22 ) 
+    btn = Button(screen,f'wyl hp = {the_one.hp}',(0,0),the_one.hp,22 ) 
+    btn.draw_button()  
+    cur_row += 23
+    btn = Button(screen,f'wyl mp = {the_one.mp}',(0,cur_row),the_one.mp,22 ) 
     btn.draw_button()  
     for p in opposite:
         cur_row += 25
@@ -229,9 +236,7 @@ def draw():
     if game.confronting:
         TITLE = 'nothing can be done now..'
         draw_confront() 
-        a = Skill(screen) 
-        if percent(3):
-            a.scherm(the_one.pos())
+        update_confront() 
         return 
     # 下面写游戏开始后的内容
 

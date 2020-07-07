@@ -6,12 +6,12 @@ HEIGHT = 562  # 1000 * 9 // 16
 def percent(x):
     return randint(1, 100) < x
 
-
-def around_pos(pos):
-    def f(): return randint(-30, 30)
+# gap 越小 越冒险 攻击力越强
+def around_pos(pos,gap = 50):
+    def f(): return randint(-300, 300)
     x,y = map(int,pos)
-    return [(i, j) for i in range(x + f(), max(x + f(), x + f()))
-         for j in range(y + f(), max(y + f(), y + f()))]
+    return [(i, j) for i in range(x + f(), max(x + f(), x + f()))[::gap]
+         for j in range(y + f(), max(y + f(), y + f()))[::gap]]
 
 
 def rand_color():

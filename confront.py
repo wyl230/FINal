@@ -41,8 +41,9 @@ class Skill:
         self.screen.draw.filled_circle(pos,100,rand_color())
 
 class Role:
-    def __init__(self,ac,skills = None, hp = 1000):
+    def __init__(self,ac,skills = None, hp = 1000,mp = 1000 ):
         self.skills = skills 
+        self.mp = mp 
         self.ac = ac 
         self.hp = hp 
         # self.skills = ['walk'] 
@@ -53,11 +54,12 @@ class Role:
     def update(self):
         if self.spinning:
             self.ac.angle += 1
-    def release_attack(self,other,Q,screen):
-        if  not Q:
+    def release_attack(self,other,Q,screen,degree_points = 1):
+        if  not Q or self.mp <= 0:
             return 
+        self.mp -= degree_points 
         for point in around_pos(self.ac.pos):
-            screen.draw.filled_circle(rand_pos(),10,rand_color())
+            screen.draw.filled_circle(point,5,rand_color())
             if other.ac.collidepoint(point):
                 self.attack(other) 
         # pass 
