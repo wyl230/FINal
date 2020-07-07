@@ -5,6 +5,7 @@ from math import *
 from random import *
 from somefunc import *
 from confront import * 
+from button import * 
 from pgzero.actor import Actor
 from pgzero.loaders import sounds
 from pgzero.clock import clock
@@ -39,7 +40,8 @@ class Gameclass:
         self.time_elapsed = 0.
         self.blink = True
         self.n_frames = 0
-        self.game_on = False
+        # self.game_on = False
+        self.game_on = True 
         self.game_message = 'fine'
         self.reset()
         self.on = False
@@ -156,13 +158,19 @@ def update_stars(dt):
 
 
 game = Gameclass()
-the_one = Role(Actor('pokemon2s'))
-opposite = [Role(Actor('op1b'))]
+the_one = Role(Actor('op1b'))
+opposite = [Role(Actor('pokemon2s')) for _ in range(3)]
 def pos_update():
     pass
 
 def update_confront():
-    the_one.random_walk()
+    # the_one.random_walk() 操控的角色抖动 可用来加大难度 
+    for p in opposite:
+            p.update()
+            p.if_physical_atk(the_one)    
+            the_one.release_attack(p,keyboard[keys.Q],screen)      
+    check_death() 
+
 
 def check_death():
     for p in opposite:
@@ -183,22 +191,28 @@ def update(dt):
         # return
     if game.confronting:
         update_confront() 
-        for p in opposite:
-            p.update()
-            p.if_physical_atk(the_one) 
-    check_death() 
-
+        
+def draw_info(screen):
+    cur_row = 0 
+    btn = Button(screen,f'wyl hp = {the_one.hp}',(cur_row,0),the_one.hp*3,22 ) 
+    btn.draw_button()  
+    for p in opposite:
+        cur_row += 25
+        btn2 = Button(screen,f'oppo[{cur_row//25}] hp = {p.hp}',(0,cur_row),the_one.hp*3,22 ) 
+        btn2.draw_button() 
 def draw_confront():
-
     bg = confront_BackGround(Actor('bg6'))
     # bg = confront_BackGround(Actor('confrontbg4a'),Actor('confrontbg4b')) 
     # bg.shake()
     bg.draw() 
-    the_one.draw() 
+    the_one.draw()  
+    the_one.smooth_walk(keyboard[keys.SPACE], keyboard[keys.UP], keyboard[keys.DOWN], keyboard[keys.LEFT], keyboard[keys.RIGHT],keyboard[keys.B],keyboard[keys.E],keyboard[keys.Q])
     for p in opposite:
         p.draw() 
-        # p.random_walk()
-        p.smooth_walk(keyboard[keys.SPACE], keyboard[keys.UP], keyboard[keys.DOWN], keyboard[keys.LEFT], keyboard[keys.RIGHT],keyboard[keys.B],keyboard[keys.E])
+        p.random_walk()
+    draw_info(screen) 
+
+
     # screen.draw.filled_circle(rand_pos(),10,rand_color())
     # screen.draw.text('asdf',midtop = rand_pos()) 
 
@@ -216,7 +230,8 @@ def draw():
         TITLE = 'nothing can be done now..'
         draw_confront() 
         a = Skill(screen) 
-        a.act() 
+        if percent(3):
+            a.scherm(the_one.pos())
         return 
     # 下面写游戏开始后的内容
 

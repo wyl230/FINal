@@ -37,21 +37,35 @@ class Skill:
         self.screen.draw.filled_circle(rand_pos(),100,rand_color())
         self.screen.draw.filled_circle(rand_pos(),10,rand_color())
         self.screen.draw.filled_circle(rand_pos(),10,rand_color())
+    def scherm(self,pos = rand_pos()):
+        self.screen.draw.filled_circle(pos,100,rand_color())
 
 class Role:
-    def __init__(self,ac, hp = 100):
+    def __init__(self,ac,skills = None, hp = 1000):
+        self.skills = skills 
         self.ac = ac 
         self.hp = hp 
-        self.skills = ['walk'] 
+        # self.skills = ['walk'] 
         self.spinning = False 
+        self.has_scherm = False 
     def draw(self):
         self.ac.draw() 
     def update(self):
         if self.spinning:
             self.ac.angle += 1
-    def release_attack():
-        pass 
-    def smooth_walk(self,s,u,d,l,r,B,E):
+    def release_attack(self,other,Q,screen):
+        if  not Q:
+            return 
+        for point in around_pos(self.ac.pos):
+            screen.draw.filled_circle(rand_pos(),10,rand_color())
+            if other.ac.collidepoint(point):
+                self.attack(other) 
+        # pass 
+    def set_scherm(self,skill, pos = rand_pos()):
+        skill.scherm(pos) 
+        self.has_scherm = True 
+
+    def smooth_walk(self,s,u,d,l,r,B,E,Q):
         mainspeed = 10        
         if s:
             # self.ac.x += mainspeed
