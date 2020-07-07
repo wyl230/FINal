@@ -172,7 +172,6 @@ def on_mouse_down(pos):
         return 
     # 
 
-
 def on_mouse_move(pos):
     if not game.on:
         if start_pic.collidepoint(pos):
