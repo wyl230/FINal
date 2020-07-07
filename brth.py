@@ -159,6 +159,7 @@ def update_stars(dt):
 
 game = Gameclass()
 the_one = Role(Actor('op1b'))
+this_part = [] 
 opposite = [Role(Actor('pokemon2s')) for _ in range(3)]
 def pos_update():
     pass
@@ -169,9 +170,14 @@ def update_confront():
     if percent(3):
             a.scherm(the_one.pos())
     for p in opposite:
-            p.update()
-            p.if_physical_atk(the_one)    
-            the_one.release_attack(p,keyboard[keys.Q],screen)      
+        p.update()
+        p.if_physical_atk(the_one)    
+        the_one.release_attack(p,keyboard[keys.Q],screen)      
+    for q in this_part:
+        q.update() 
+
+            # if keyboard[keys.P]:
+                # a.purify(opposite,this_part) 
     check_death() 
 
 
@@ -205,7 +211,7 @@ def draw_info(screen):
     btn.draw_button()  
     for p in opposite:
         cur_row += 25
-        btn2 = Button(screen,f'oppo[{cur_row//25}] hp = {p.hp}',(0,cur_row),the_one.hp*3,22 ) 
+        btn2 = Button(screen,f'oppo[{cur_row//25}] hp = {p.hp}',(0,cur_row),p.hp,22 ) 
         btn2.draw_button() 
 def draw_confront():
     bg = confront_BackGround(Actor('bg6'))
@@ -214,7 +220,7 @@ def draw_confront():
     bg.draw() 
     the_one.draw()  
     the_one.smooth_walk(keyboard[keys.SPACE], keyboard[keys.UP], keyboard[keys.DOWN], keyboard[keys.LEFT], keyboard[keys.RIGHT],keyboard[keys.B],keyboard[keys.E],keyboard[keys.Q])
-    for p in opposite:
+    for p in opposite + this_part:
         p.draw() 
         p.random_walk()
     draw_info(screen) 
@@ -261,8 +267,14 @@ def on_mouse_move(pos):
     # 
 
 
+def confront_one_key_down(key):
+    if key is keys.P:
+        a = Skill(screen)
+        a.purify(opposite,this_part) 
 def on_key_down(key):
-    pass
+    if game.confronting:
+        confront_one_key_down(key) 
+        return 
     # mainspeed = 10
     # if key is keys.UP:
     #     rab.y -= mainspeed

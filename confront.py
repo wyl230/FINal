@@ -39,6 +39,15 @@ class Skill:
         self.screen.draw.filled_circle(rand_pos(),10,rand_color())
     def scherm(self,pos = rand_pos()):
         self.screen.draw.filled_circle(pos,100,rand_color())
+    def table_turn(self,others,this_part):
+        o = choice(others) 
+        others.remove(o) 
+        this_part.append(o) 
+    def purify(self,others,this_part):
+        o = choice(others) 
+        others.remove(o) 
+        this_part.append(o) 
+
 
 class Role:
     def __init__(self,ac,skills = None, hp = 1000,mp = 1000 ):
@@ -97,7 +106,6 @@ class Role:
     def if_physical_atk(self,other):
         if self.ac.collidepoint(other.ac.pos):
             self.attack(other) 
-            print(other.hp)
     def pos(self):
         return self.ac.pos 
 class confront_BackGround:
