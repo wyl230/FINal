@@ -1,23 +1,24 @@
 import pgzrun
-# import globalValues 
+# import globalValues
 from math import *
 from random import *
-from somefunc import * 
+from somefunc import *
 from pgzero.actor import Actor
 from pgzero.loaders import sounds
 from pgzero.clock import clock
 from pgzero.screen import Screen
 from pgzero.rect import Rect
 from pgzero.keyboard import keys
-screen: Screen  # 类型标注 
-TITLE = 'undetermined' 
-LINE_COLOR = 'gold' 
+screen: Screen  # 类型标注
+TITLE = '好听的名字呢？？？？'
+LINE_COLOR = 'gold'
 
-rab_live = True 
+rab_live = True
+
 
 class Gameclass:
     def __init__(self):
-        self.level = 1 
+        self.level = 1
         self.time = 0.
         self.score = 0
         self.game_speed = 30
@@ -27,8 +28,8 @@ class Gameclass:
         self.game_on = False
         self.game_message = 'fine'
         self.reset()
-        self.on = False 
-    
+        self.on = False
+
     def reset(self):
         pass
 
@@ -37,8 +38,8 @@ class Gameclass:
 
 
 WIDTH = 1000
-HEIGHT = 562 # 1000 * 9 // 16
-start_pic = Actor('gamestart',(1000//2,562//2)) 
+HEIGHT = 562  # 1000 * 9 // 16
+start_pic = Actor('gamestart', (1000//2, 562//2))
 ACCEL = 1.0
 DRAG = 0.9
 TRAIL_LENGTH = 2
@@ -81,7 +82,7 @@ def draw_stars():
     def f(): return randint(0, 255)
     global lastc
 
-    if randint(1, 120) != 1:
+    if randint(1, 60) != 1:
         color = lastc
     else:
         color = (f(), f(), f())
@@ -138,15 +139,18 @@ def update_stars(dt):
     ]
 
 
-game = Gameclass() 
+game = Gameclass()
+
 
 def pos_update():
-    pass 
+    pass
+
+
 def update(dt):
     if not game.on:
         update_stars(dt)
         pos_update()
-        return 
+        return
 
 
 def draw():
@@ -156,21 +160,31 @@ def draw():
         draw_stars()
         # screen.fill('red')
         # screen.blit('background',(0,0))
-        return 
+        return
     # 下面写游戏开始后的内容
 
 
 def on_mouse_down(pos):
-    print(f"you just click{pos}") 
+    print(f"you just click{pos}")
     if not game.on:
         if start_pic.collidepoint(pos):
-            game.on = True 
+            game.on = True
+        return 
+    # 
+
+
 def on_mouse_move(pos):
     if not game.on:
         if start_pic.collidepoint(pos):
             start_pic.angle = 20
-        else :
+        else:
             start_pic.angle = 0
+            global centerx, centery 
+            centerx, centery = pos 
+        return 
+    # 
+
+
 def on_key_down(key):
     pass
     # mainspeed = 10
