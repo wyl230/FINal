@@ -28,7 +28,16 @@ screen: Screen  # 类型标注
 class Confront:
     def __init__(self):
         pass 
-    
+
+class Skill:
+    def __init__(self,screen,name = 'uncertain'):
+        self.name = name 
+        self.screen  = screen 
+    def act(self):
+        self.screen.draw.filled_circle(rand_pos(),100,rand_color())
+        self.screen.draw.filled_circle(rand_pos(),10,rand_color())
+        self.screen.draw.filled_circle(rand_pos(),10,rand_color())
+
 class Role:
     def __init__(self,ac, hp = 100):
         self.ac = ac 
@@ -40,6 +49,8 @@ class Role:
     def update(self):
         if self.spinning:
             self.ac.angle += 1
+    def release_attack():
+        pass 
     def smooth_walk(self,s,u,d,l,r,B,E):
         mainspeed = 10        
         if s:
@@ -67,7 +78,7 @@ class Role:
             self.ac.y = 300 
     def attack(self,other,atk = 1):
         other.hp -= atk  
-    def if_atk(self,other):
+    def if_physical_atk(self,other):
         if self.ac.collidepoint(other.ac.pos):
             self.attack(other) 
             print(other.hp)

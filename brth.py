@@ -185,7 +185,7 @@ def update(dt):
         update_confront() 
         for p in opposite:
             p.update()
-            p.if_atk(the_one) 
+            p.if_physical_atk(the_one) 
     check_death() 
 
 def draw_confront():
@@ -215,6 +215,8 @@ def draw():
     if game.confronting:
         TITLE = 'nothing can be done now..'
         draw_confront() 
+        a = Skill(screen) 
+        a.act() 
         return 
     # 下面写游戏开始后的内容
 
