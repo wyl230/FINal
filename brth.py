@@ -203,6 +203,11 @@ def check_death():
         game.confronting = False 
         game.on = False 
         the_one.hp = 1000 
+    elif not opposite:
+        print('you win') 
+        game.confronting = False 
+        game.on = False 
+        the_one.hp = 1000 
 def draw_main_info():
     pass
 def main_update():
