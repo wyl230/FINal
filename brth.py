@@ -196,11 +196,13 @@ def check_death():
     if the_one.hp < 0:
         screen.draw.text('you lose',midtop = rand_pos())
         # sleep(1)
-        time.sleep(1.0)
+        # time.sleep(1.0)
         # clock.schedule_unique(draw, 1.0)
         # clock.schedule_unique(update, 1.0)
         # print('you lose') 
         game.confronting = False 
+        game.on = False 
+        the_one.hp = 1000 
 def draw_main_info():
     pass
 def main_update():
@@ -278,7 +280,7 @@ def on_mouse_down(pos):
 def on_mouse_move(pos):
     if not game.on:
         if start_pic.collidepoint(pos):
-            start_pic.angle = 20
+            start_pic.angle = randint(-13,13)
         else:
             start_pic.angle = 0
             global centerx, centery 
