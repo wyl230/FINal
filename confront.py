@@ -1,5 +1,6 @@
 
 import pgzrun
+# 编写注意 pos等调用在.ac.
 # import globalValues
 from math import *
 from random import *
@@ -50,11 +51,12 @@ class Skill:
         o = choice(others) 
         others.remove(o) 
         this_part.append(o) 
-    def drift(self,me,other):
+    def drift(self,me,other,e,cur_time):
         # 单次攻击 
-        f,t = me.pos,other.pos
-        e = Effect()
-        e.show_effects(f,t)  
+        f,t = me.ac.pos,other.ac.pos
+        print(f,t)
+        # e = Effect()
+        e.show_effects(f,t,cur_time)  
         e.real_effects(me,other,self) 
 
 
@@ -72,10 +74,15 @@ class Role:
     def update(self):
         if self.spinning:
             self.ac.angle += 1
-    def release_attack(self,other,Q,screen,degree_points = 1):
+    def drift_attack(self,other,J,screen,skill,cur_time,consume = 1):
+        if not J:
+            return 
+        e = Effect(self.ac.pos) 
+        skill.drift(self,other,e,cur_time )  
+    def release_attack(self,other,Q,screen,consume = 1):
         if  not Q or self.mp <= 0:
             return 
-        self.mp -= degree_points 
+        self.mp -= consume  
         for point in around_pos(self.ac.pos):
             screen.draw.filled_circle(point,5,rand_color())
             if other.ac.collidepoint(point):

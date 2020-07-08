@@ -19,17 +19,30 @@ MIDDLE = WIDTH//2,HEIGHT//2
 start_time = time() 
 LINE_COLOR = 'gold' 
 # a = Actor('at.gif') 
-def update(dt):
-    screen.clear() 
-    cur_time = time() - start_time 
-    screen.draw.text(f'{cur_time:.2f}',midtop = MIDDLE) 
-    at_effects[elapse_pos(cur_time,3)].draw()
-    
+def draw_rain(cur_time):
     for i in range(100):
         x,y = (10*i,5 * elapse_pos(cur_time))
         to_pos = x + randint(-5,5), y+randint(5,22) 
         x,y = x + randint(-5,5) ,y+randint(-5,5)
         screen.draw.line((x,y),to_pos,rand_color())
+def draw_time_info(cur_time):
+    # screen.draw.text(f'{cal_dist((0,0),(1,1))}',midtop = MIDDLE)
+    screen.draw.text(f'{cur_time:.2f}',midtop = MIDDLE) 
+
+a = Effect() 
+def update(dt):
+    screen.clear() 
+    cur_time = time() - start_time 
+    a.show_effects((0,0),(444,333),cur_time) 
+    # at_effects[elapse_pos(cur_time,3)].draw()
+    # for e in at_effects:
+    #     x,y = e.pos 
+    #     e.pos = x + 10,y + 10 
+    #     e.angle += 1
+    # draw colorful rain 
+    draw_time_info(cur_time) 
+    draw_rain(cur_time) 
+    # 
 def draw():
     pass
     # a.draw() 

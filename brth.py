@@ -29,7 +29,7 @@ TITLE = '好听的名字呢？？？？'
 LINE_COLOR = 'gold'
 
 rab_live = True
-
+start_time = time.time()
 
 class Gameclass:
     def __init__(self):
@@ -162,11 +162,13 @@ game = Gameclass()
 the_one = Role(Actor('op1b'))
 this_part = [] 
 opposite = [Role(Actor('pokemon2s')) for _ in range(3)]
+# ef1 = Effect() 
 def pos_update():
     pass
 
 def update_confront():
     a = Skill(screen) 
+    cur_time = time.time() - start_time 
     # the_one.random_walk() 操控的角色抖动 可用来加大难度 
     if percent(3):
             a.scherm(the_one.pos())
@@ -174,6 +176,7 @@ def update_confront():
         p.update()
         p.if_physical_atk(the_one)    
         the_one.release_attack(p,keyboard[keys.Q],screen)      
+        the_one.drift_attack(p,keyboard[keys.J],screen,a,cur_time)
     for q in this_part:
         q.update() 
 
@@ -195,7 +198,7 @@ def check_death():
         # print('you lose') 
         game.confronting = False 
 def draw_main_info():
-    pass 
+    pass
 def update(dt):
     if not game.on:
         update_stars(dt)
@@ -203,7 +206,7 @@ def update(dt):
         # return
     if game.confronting:
         pass 
-        # update_confront() 
+        # update_confront() 在这里调用不能draw
     # 游戏主界面 
 
     # 展示信息 
