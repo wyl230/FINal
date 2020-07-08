@@ -99,7 +99,7 @@ lastc = (1, 1, 1)
 
 
 def draw_stars():
-    def f(): return randint(0, 255)
+    def f(): return randint(64, 255) # brighter
     global lastc
 
     if randint(1, 60) != 1:
@@ -160,9 +160,13 @@ def update_stars(dt):
 
 
 game = Gameclass()
+all_actors = [Actor('poke9',rand_pos()),Actor('poke',rand_pos()),Actor('poke2',rand_pos()),Actor('poke3',rand_pos()),Actor('poke4',rand_pos()),Actor('poke5',rand_pos()),Actor('poke6',rand_pos()),Actor('poke7',rand_pos()),Actor('poke8',rand_pos()),Actor('pokea',rand_pos())]
 the_one = Role(Actor('op1b',rand_pos()))
+
 this_part = [] 
 opposite = [Role(Actor('pokemon2s',rand_pos())) for _ in range(randint(3,5))]
+add_opst = [Role(choice(all_actors)) for _ in range(3)] 
+opposite.extend(add_opst) 
 # ef1 = Effect() 
 def pos_update():
     pass
@@ -174,7 +178,7 @@ def update_confront():
     # the_one.random_walk() 操控的角色抖动 可用来加大难度 
     # 随机出现的屏障 
     if percent(3):
-            a.scherm(the_one.pos())
+            a.scherm(the_one,the_one.pos())
     for p in opposite:
         p.update()
         p.if_physical_atk(the_one)    
@@ -206,7 +210,7 @@ def check_death():
     elif not opposite:
         print('you win') 
         game.confronting = False 
-        game.on = True 
+        game.on = False # 合并之后改为true
         the_one.hp = 1000 
 def draw_main_info():
     pass
@@ -232,10 +236,11 @@ def draw_info(screen):
     cur_row += 23
     btn = Button(screen,f'wyl mp = {the_one.mp}',(0,cur_row),the_one.mp,22 ) 
     btn.draw_button()  
+    cur_row += 13
     for p in opposite:
-        cur_row += 25
-        btn2 = Button(screen,f'oppo[{cur_row//25}] hp = {p.hp}',(0,cur_row),p.hp,22 ) 
-        btn2.draw_button() 
+        cur_row += 10
+        btn2 = Button(screen,f'oppo[{cur_row//25}] hp = {p.hp}',(0,cur_row),p.hp,8) 
+        btn2.draw_button(10) 
 def draw_confront():
     bg = confront_BackGround(Actor('bg6'))
     # bg = confront_BackGround(Actor('confrontbg4a'),Actor('confrontbg4b')) 

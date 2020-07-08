@@ -102,6 +102,6 @@ class Button():
     # def prep_msg(self,msg):
     #     pass 
 
-    def draw_button(self):
+    def draw_button(self,fontsizes = 28):
         self.screen.draw.filled_rect(self.rect,self.button_color)
-        self.screen.draw.text(self.msg,self.midtop,fontsize = 28)
+        self.screen.draw.text(self.msg,self.midtop,fontsize = fontsizes)

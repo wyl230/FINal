@@ -14,6 +14,8 @@ trial.py is only for testing
 
 特性 HP MP 
 
+scherm 对战时一定几率出现 增加HP MP 概率随能力而提高
+
 skills : purify(使用次数受限制),scerm,drift(攻击力大小受限),color_boom(攻击范围 + 大小)
 
 供选择的机制 
@@ -32,4 +34,7 @@ J和Q键释放不同的攻击
 
 其他的操作暂定
 
- 
+### .
+
+fix shaking problem 
+

@@ -43,7 +43,7 @@ def swing(*a):
 
 
 def is_in(x, y):
-    return 0 < x < HEIGHT and 0 < y < WIDTH
+    return 0 < x < WIDTH and 0 < y < HEIGHT
 
 # def change_v(*ac):
 #     p1, p2 = ac
