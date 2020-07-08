@@ -41,13 +41,13 @@ class Gameclass:
         self.show_text_pos = (MIDDLE)
         self.blink = True
         self.n_frames = 0
-        # self.game_on = False
-        self.game_on = True 
+        self.game_on = False
+        # self.game_on = True 
         self.game_message = 'fine'
         self.reset()
         self.on = False
-        # self.confronting = False 
-        self.confronting = True 
+        self.confronting = False 
+        # self.confronting = True 
 
     def reset(self):
         pass
@@ -203,16 +203,18 @@ def check_death():
         game.confronting = False 
 def draw_main_info():
     pass
+def main_update():
+    pass 
 def update(dt):
     if not game.on:
         update_stars(dt)
         pos_update()
-        # return
+        return
     if game.confronting:
-        pass 
         # update_confront() 在这里调用不能draw
+        return 
     # 游戏主界面 
-
+    main_update() 
     # 展示信息 
     draw_main_info() 
         
@@ -242,6 +244,9 @@ def draw_confront():
 
     # screen.draw.filled_circle(rand_pos(),10,rand_color())
     # screen.draw.text('asdf',midtop = rand_pos()) 
+def main_draw():
+    game.confronting = True 
+    pass 
 
 def draw():
     global TITLE 
@@ -252,12 +257,13 @@ def draw():
         # screen.fill('red')
         # screen.blit('background',(0,0))
         # 
-        # return
+        return
     if game.confronting:
         TITLE = 'nothing can be done now..'
         draw_confront() 
         update_confront() 
         return 
+    main_draw() 
     # 下面写游戏开始后的内容
 
 
