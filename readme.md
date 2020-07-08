@@ -6,3 +6,4 @@ when game.confronting is True, goto the confronting interface
 
 ...
 注意图像的先后顺序 
+trial.py is only for testing 

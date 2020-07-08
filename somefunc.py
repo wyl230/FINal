@@ -6,6 +6,8 @@ HEIGHT = 562  # 1000 * 9 // 16
 def percent(x):
     return randint(1, 100) < x
 
+def elapse_pos(t,p = 100,q = 10 ):
+    return int(t*q)%p
 # gap 越小 越冒险 攻击力越强
 def around_pos(pos,gap = 50):
     def f(): return randint(-300, 300)

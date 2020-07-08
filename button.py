@@ -90,6 +90,9 @@ class Button():
         self.screen = screen 
         self.width,self.height = width,height 
         self.button_color = 'maroon'# (123,12,44) 
+        # 'firebrick1' 
+        if 'm' in msg:
+            self.button_color = 'firebrick1'
         self.text_color = (11,222,12)
         self.midtop = midtop 
         x,y = midtop 

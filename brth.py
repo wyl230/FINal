@@ -57,6 +57,7 @@ class Gameclass:
 
 WIDTH = 1000
 HEIGHT = 562  # 1000 * 9 // 16
+MIDDLE = WIDTH//2,HEIGHT//2
 start_pic = Actor('gamestart', (1000//2, 562//2))
 ACCEL = 1.0
 DRAG = 0.9
@@ -193,6 +194,8 @@ def check_death():
         # clock.schedule_unique(update, 1.0)
         # print('you lose') 
         game.confronting = False 
+def draw_main_info():
+    pass 
 def update(dt):
     if not game.on:
         update_stars(dt)
@@ -201,6 +204,10 @@ def update(dt):
     if game.confronting:
         pass 
         # update_confront() 
+    # 游戏主界面 
+
+    # 展示信息 
+    draw_main_info() 
         
 def draw_info(screen):
     cur_row = 0 

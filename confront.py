@@ -5,6 +5,7 @@ from math import *
 from random import *
 # from somefunc import *
 from somefunc import *
+from attack_effect import * 
 from pgzero.actor import Actor
 from pgzero.loaders import sounds
 from pgzero.clock import clock
@@ -30,9 +31,11 @@ class Confront:
         pass 
 
 class Skill:
-    def __init__(self,screen,name = 'uncertain'):
+    def __init__(self,screen,name = 'uncertain',consume = 1,power = 10):
         self.name = name 
         self.screen  = screen 
+        self.consume = consume 
+        self.power = power 
     def act(self):
         self.screen.draw.filled_circle(rand_pos(),100,rand_color())
         self.screen.draw.filled_circle(rand_pos(),10,rand_color())
@@ -47,6 +50,12 @@ class Skill:
         o = choice(others) 
         others.remove(o) 
         this_part.append(o) 
+    def drift(self,me,other):
+        # 单次攻击 
+        f,t = me.pos,other.pos
+        e = Effect()
+        e.show_effects(f,t)  
+        e.real_effects(me,other,self) 
 
 
 class Role:
@@ -94,6 +103,7 @@ class Role:
         if E:
             self.spinning = False 
     def random_walk(self):
+        # pass
         f = lambda :randint(-10,10) 
         self.ac.angle += randint(-1,1) 
         self.ac.x += f() 
@@ -104,7 +114,8 @@ class Role:
     def attack(self,other,atk = 1):
         other.hp -= atk  
     def if_physical_atk(self,other):
-        if self.ac.collidepoint(other.ac.pos):
+        # if self.ac.collidepoint(other.ac.pos):
+        if self.ac.colliderect(other.ac) :
             self.attack(other) 
     def pos(self):
         return self.ac.pos 
@@ -114,7 +125,8 @@ class confront_BackGround:
 
     def draw(self,i = 0):
         self.acs[i].draw() 
-
+    def drop(self):
+        pass 
     def shake(self):
         if randint(1,10) < 5:
             self.draw() 
