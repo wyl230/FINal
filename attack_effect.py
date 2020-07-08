@@ -50,3 +50,6 @@ class Effect:
     def real_effects(self,me,other,skill):
         other.hp -= skill.power 
         me.mp -= skill.consume 
+
+def instant_text(msg,screen,pos = rand_pos()):
+    screen.draw.text(msg,midtop = pos ) 

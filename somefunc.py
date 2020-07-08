@@ -31,7 +31,7 @@ def rand_color():
     return f(), f(), f()
 
 
-def rand_pos(x=HEIGHT, y=WIDTH):
+def rand_pos(x=WIDTH, y=HEIGHT):
     def h(): return randint(1, x)
     def g(): return randint(1, y)
     return h(), g()

@@ -4,7 +4,6 @@ import pgzrun
 # import globalValues
 from math import *
 from random import *
-# from somefunc import *
 from somefunc import *
 from attack_effect import * 
 from pgzero.actor import Actor
@@ -30,7 +29,7 @@ screen: Screen  # 类型标注
 class Confront:
     def __init__(self):
         pass 
-
+    
 class Skill:
     def __init__(self,screen,name = 'uncertain',consume = 1,power = 10):
         self.name = name 
@@ -42,20 +41,22 @@ class Skill:
         self.screen.draw.filled_circle(rand_pos(),10,rand_color())
         self.screen.draw.filled_circle(rand_pos(),10,rand_color())
     def scherm(self,pos = rand_pos()):
-        self.screen.draw.filled_circle(pos,100,rand_color())
+        self.screen.draw.filled_circle(pos,150,'lavender')
     def table_turn(self,others,this_part):
         o = choice(others) 
         others.remove(o) 
         this_part.append(o) 
     def purify(self,others,this_part):
+        if not others:
+            return (0,0) 
         o = choice(others) 
         others.remove(o) 
         this_part.append(o) 
+        return o.pos() 
     def drift(self,me,other,e,cur_time):
         # 单次攻击 
         f,t = me.ac.pos,other.ac.pos
         print(f,t)
-        # e = Effect()
         e.show_effects(f,t,cur_time)  
         e.real_effects(me,other,self) 
 

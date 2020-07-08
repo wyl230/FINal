@@ -9,9 +9,7 @@ from button import *
 from pgzero.actor import Actor
 from pgzero.loaders import sounds
 from pgzero.clock import clock
-from pgzero.rect import Rect
 from pgzero.keyboard import keys
-from pgzero.actor import Actor
 from pgzero.rect import Rect, ZRect
 from pgzero.loaders import sounds, images
 from pgzero import music, tone
@@ -27,7 +25,8 @@ keyboard: Keyboard  # 类型标注
 screen: Screen  # 类型标注
 TITLE = '好听的名字呢？？？？'
 LINE_COLOR = 'gold'
-
+cur_time = 0.0 
+cnt = 0
 rab_live = True
 start_time = time.time()
 
@@ -38,6 +37,8 @@ class Gameclass:
         self.score = 0
         self.game_speed = 30
         self.time_elapsed = 0.
+        self.show_text = False 
+        self.show_text_pos = (MIDDLE)
         self.blink = True
         self.n_frames = 0
         # self.game_on = False
@@ -159,17 +160,19 @@ def update_stars(dt):
 
 
 game = Gameclass()
-the_one = Role(Actor('op1b'))
+the_one = Role(Actor('op1b',rand_pos()))
 this_part = [] 
-opposite = [Role(Actor('pokemon2s')) for _ in range(3)]
+opposite = [Role(Actor('pokemon2s',rand_pos())) for _ in range(randint(3,5))]
 # ef1 = Effect() 
 def pos_update():
     pass
 
 def update_confront():
     a = Skill(screen) 
+    global cur_time 
     cur_time = time.time() - start_time 
     # the_one.random_walk() 操控的角色抖动 可用来加大难度 
+    # 随机出现的屏障 
     if percent(3):
             a.scherm(the_one.pos())
     for p in opposite:
@@ -179,7 +182,8 @@ def update_confront():
         the_one.drift_attack(p,keyboard[keys.J],screen,a,cur_time)
     for q in this_part:
         q.update() 
-
+    if game.show_text:
+        instant_text('purifying!!!',screen,game.show_text_pos)
             # if keyboard[keys.P]:
                 # a.purify(opposite,this_part) 
     check_death() 
@@ -280,7 +284,8 @@ def on_mouse_move(pos):
 def confront_one_key_down(key):
     if key is keys.P:
         a = Skill(screen)
-        a.purify(opposite,this_part) 
+        game.show_text_pos = a.purify(opposite,this_part) 
+        game.show_text = True
 def on_key_down(key):
     if game.confronting:
         confront_one_key_down(key) 
@@ -295,5 +300,14 @@ def on_key_down(key):
     # elif key is keys.RIGHT:
     #     rab.x += mainspeed
 
+def shuttext():
+    game.show_text = False 
+def cnter():
+    global cnt 
+    print(cnt)
+    cnt += 1 
+    if game.show_text:
+        clock.schedule(shuttext,1) 
 
+clock.schedule_interval(cnter,1.0) 
 pgzrun.go()
