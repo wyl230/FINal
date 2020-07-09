@@ -261,18 +261,18 @@ def draw_preparation(screen):
             clicked = True
             if i == 0:
                 screen.draw.text('you will have a more colorful life\n(more powerful when use skills)', midtop=(
-                    WIDTH*2//3, HEIGHT // 10), fontsize=30, color=choice(randcolors))
+                    WIDTH*2//3, HEIGHT // 10), fontsize=30, color=randcolors[i])
             elif i == 1:
                 screen.draw.text('you will be full of courage to explore your life.\n(the moving speed increased)', midtop=(
-                    WIDTH*2//3, HEIGHT // 2), fontsize=30, color=choice(randcolors))
+                    WIDTH*2//3, HEIGHT // 2), fontsize=30, color=randcolors[i])
             elif i == 2:
-                screen.draw.text('you will be full of courage to explore your life.\n(the moving speed increased)', midtop=(WIDTH*2//3, 2*HEIGHT // 5), fontsize=30, color =choice(randcolors))
+                screen.draw.text('you will be full of courage to explore your life.\n(the moving speed increased)', midtop=(WIDTH*2//3, 2*HEIGHT // 5), fontsize=30, color =randcolors[i])
             elif i == 3:
                 screen.draw.text('you will be full of courage to explore your life.\n(the moving speed increased)', midtop=(
-                    WIDTH*3//7, 3*HEIGHT // 5), fontsize=30, color=choice(randcolors))
+                    WIDTH*3//7, 3*HEIGHT // 5), fontsize=30, color=randcolors[i])
             elif i == 4:
                 screen.draw.text('you will be full of courage to explore your life.\n(the moving speed increased)', midtop=(
-                    WIDTH*5//7, 4*HEIGHT // 5), fontsize=30, color=choice(randcolors))
+                    WIDTH*5//7, 4*HEIGHT // 5), fontsize=30, color=randcolors[i])
 
             screen.draw.filled_circle(rand_pos(), 10, rand_color())
     screen.draw.text('Please click on the Phalanx on the left.\nYou have three chances.', midtop=(
