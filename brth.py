@@ -4,6 +4,7 @@ import time
 from math import *
 from random import *
 from somefunc import *
+from pre_written import *
 from confront import *
 from rainstorm import *
 from button import *
@@ -31,8 +32,8 @@ rab_live = True
 start_time = time.time()
 rain = Draw_rain(100, 150)
 randcolors = [choice(COLORS) for i in range(20)]
-
-
+randposes = [rand_pos() for _ in range(100)] 
+randtexts = [choice(texts) for _ in range(100) ]
 class Gameclass:
     def __init__(self):
         self.level = 1
@@ -336,12 +337,19 @@ def main_draw():
     game.confronting = True
     pass
 
-
+def draw_start(screen):
+    for i,pos in zip(range(10),randposes[:10]):
+        # screen.draw.text(f'wyl{pos}',midtop = pos)
+        screen.draw.text(f'{randtexts[i]}',midtop = pos,color = randcolors[i+2])
+    start_pic.draw()
+    text = Actor('text1s',midtop = (WIDTH//2+120,HEIGHT//5-99))
+    text.angle += randint(-3,3) 
+    text.draw() 
 def draw():
     global TITLE
     screen.clear()
     if not game.on:
-        start_pic.draw()
+        draw_start(screen)
         draw_stars()
         # screen.fill('red')
         # screen.blit('background',(0,0))
@@ -368,7 +376,7 @@ def on_mouse_down(pos):
             game.on = True
         return
     if game.preparing:
-        if game.click_cnt >= 5:
+        if game.click_cnt >= 3:
             game.preparing = False
             return
         for v in vortex:
