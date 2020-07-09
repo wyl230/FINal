@@ -3,6 +3,33 @@ import numpy as np
 WIDTH = 1000
 HEIGHT = 562  # 1000 * 9 // 16
 
+u_color = ['maroon',
+           #    'grey',
+           #    'silver',
+           #    'lightgrey',
+           #    'HotPink',
+           #    'DeepPink',
+           #    'VioletRed',
+           #    'Purple',
+           #    'navy',
+           #    'Blue',
+           #    'DeepSkyBlue',
+           #    'LightSkyBlue',
+           #    'aqua',
+           #    'DarkTurquoise',
+           #    'LightSeaGreen',
+           #    'YellowGreen',
+           #    'LawnGreen',
+           #    'GreenYellow',
+           #    'Yellow',
+           #    'Tomato',
+           'red',
+           #    'fuchsia',
+           #    'MediumOrchid',
+           #    'DarkViole']
+           ]
+u_color = [u.lower() for u in u_color]
+
 
 def percent(x):
     return randint(1, 100) < x
@@ -20,10 +47,12 @@ def elapse_pos(t, p=100, q=10):
 
 
 def around_pos(pos, gap=50):
-    def f(): return randint(-300, 300)
+    def f(): return randint(-311, 311)
     x, y = map(int, pos)
-    return [(i, j) for i in range(x + f(), max(x + f(), x + f()))[::gap]
-            for j in range(y + f(), max(y + f(), y + f()))[::gap]]
+    return [(i, j) for i in range(min(x+f(), x + f()), max(x + f(), x + f()))[::gap]
+            for j in range((min(y+f(), y + f())), (max(y + f(), y + f())))[::gap]
+            if (x-i)**2 + (y-j) ** 2 <= 100000 and abs(x-i+y-j) > 100 and abs(x-i-y+j) > 100
+            ]
 
 
 def rand_color():
@@ -43,6 +72,7 @@ def swing(*a):
 
 
 def is_in(x, y):
+    return -100 < x < WIDTH + 150 and -150 < y < HEIGHT + 150 
     return 0 < x < WIDTH and 0 < y < HEIGHT
 
 # def change_v(*ac):

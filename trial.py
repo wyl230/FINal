@@ -2,6 +2,7 @@ import pgzrun
 from math import *
 from random import *
 from somefunc import * 
+from rainstorm import * 
 from time import * 
 from attack_effect import * 
 from pgzero.actor import Actor
@@ -12,7 +13,7 @@ from pgzero.rect import Rect
 from pgzero.keyboard import keys
 screen: Screen  # 类型标注
 TITLE = 'undetermined'
-
+print(u_color)
 WIDTH = 800 
 HEIGHT = 600 
 MIDDLE = WIDTH//2,HEIGHT//2
@@ -20,6 +21,7 @@ start_time = time()
 LINE_COLOR = 'gold' 
 # a = Actor('at.gif') 
 cur_time = 0.0 
+rain = Draw_rain() 
 def draw_rain():
     for i in range(100):
         x,y = (10*i,5 * elapse_pos(cur_time))
@@ -37,10 +39,13 @@ def f():
     print(cnt)
     cnt += 1  
 # a = Effect() 
+a = Effect(rand_pos()) 
 def update(dt):
     global cur_time 
     screen.clear() 
     cur_time = time() - start_time 
+    # a.hunt_effects(rand_pos(),rand_pos(),cur_time)
+    # rain.update_rain(dt) 
     # a.show_effects((0,0),(444,333),cur_time) 
     # at_effects[elapse_pos(cur_time,3)].draw()
     # for e in at_effects:
@@ -56,9 +61,14 @@ def update(dt):
 # 此类函数就在draw 和 update以外调用
 clock.schedule_interval(f,1.1) 
     # 
+# hunt = lambda :a.hunt_effects((0,0),MIDDLE,cur_time)
 def draw():
+    a.hunt_effects(rand_pos(),rand_pos(),cur_time) # call ones and the parameter doesn't change 
+    # hunt()
+    # clock.schedule(hunt,1.0) 
+    # clock.schedule_unique(hunt,1.3)
     clock.schedule(draw_time_info,2.0)
-    pass
+    # rain.draw_rain(screen) 
     # a.draw() 
     # pass 
     # screen.draw.filled_rect( Rect(0, 0, 222, 300), "gold" )
