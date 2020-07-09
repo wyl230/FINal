@@ -99,7 +99,7 @@ lastc = (1, 1, 1)
 
 
 def draw_stars():
-    def f(): return randint(64, 255) # brighter
+    def f(): return randint(96, 255) # brighter
     global lastc
 
     if randint(1, 60) != 1:
@@ -239,7 +239,7 @@ def draw_info(screen):
     cur_row += 13
     for p in opposite:
         cur_row += 10
-        btn2 = Button(screen,f'oppo[{cur_row//25}] hp = {p.hp}',(0,cur_row),p.hp,8) 
+        btn2 = Button(screen,f'oppo[{cur_row//25}] hp = {p.hp}',(0,cur_row),p.hp/10,8) 
         btn2.draw_button(10) 
 def draw_confront():
     bg = confront_BackGround(Actor('bg6'))

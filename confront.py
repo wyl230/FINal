@@ -65,7 +65,7 @@ class Skill:
     def drift(self, me, other, e, cur_time):
         # 单次攻击
         f, t = me.ac.pos, other.ac.pos
-        print(f, t)
+        # print(f, t)
         e.show_effects(f, t, cur_time)
         e.real_effects(me, other, self)
 
