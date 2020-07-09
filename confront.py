@@ -62,11 +62,11 @@ class Skill:
         this_part.append(o)
         return o.pos()
 
-    def drift(self, me, other, e, cur_time, another=True):
+    def drift(self, me, other, e, cur_time,cnt2, another=True):
         # 单次攻击
         f, t = me.ac.pos, other.ac.pos
         # print(f, t)
-        e.show_effects(f, t, cur_time, another)
+        e.show_effects(f, t, cur_time,cnt2, another)
         e.real_effects(me, other, self)
 
 
@@ -102,11 +102,11 @@ class Role:
         if self.spinning:
             self.ac.angle += 1
 
-    def drift_attack(self, other, J, screen, skill, cur_time, another=True, consume=10):
+    def drift_attack(self, other, J, screen, skill, cur_time,cnt2, another=True, consume=10):
         if not J or self.mp <= consume:
             return
         e = Effect(self.ac.pos)
-        skill.drift(self, other, e, cur_time, another)
+        skill.drift(self, other, e, cur_time,cnt2, another)
 
     def release_attack(self, other, Q, screen, consume=1):
         if (not Q)or self.mp <= consume:

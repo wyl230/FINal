@@ -2,6 +2,7 @@
 import pgzrun
 # import globalValues
 from math import *
+# from brth import *
 from random import *
 # from somefunc import *
 from somefunc import *
@@ -23,6 +24,7 @@ keyboard: Keyboard  # 类型标注
 screen: Screen  # 类型标注
 
 at_effects = [Actor('at1'),Actor('at2'),Actor('at3')]
+vortexs = [Actor('vortex1'),Actor('vortex2'),Actor('vortex3'),Actor('vortex4'),Actor('vortex5'),]
 vortex = [Actor('vortex1'),Actor('vortex2'),Actor('vortex3'),Actor('vortex4'),Actor('vortex5'),]
 class Effect:
     def __init__(self,pos):
@@ -53,7 +55,7 @@ class Effect:
             self.cnt += 1                 
         # print(at_effects[0].pos)
         at_effects[elapse_pos(cur_time,3)].draw() 
-    def show_effects(self,f,t,cur_time,another = True  ):
+    def show_effects(self,f,t,cur_time,cnt2,another = True  ):
         # dist = cal_dist(f,t) 
         if another:
             p = rand_pos() 
@@ -61,7 +63,8 @@ class Effect:
                 v.pos = p
             at_effects[elapse_pos(cur_time,3)].draw() 
         else:
-            chose = choice(vortex) 
+            # chose = choice(vortexs) 
+            chose = vortexs[cnt2%5]
         # or below  also attck all 
             chose.pos = f
             chose.draw() 

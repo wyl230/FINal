@@ -195,7 +195,9 @@ def update_confront():
         p.if_physical_atk(the_one)
         the_one.release_attack(p, keyboard[keys.Q], screen)
         the_one.drift_attack(
-            p, keyboard[keys.J], screen, a, cur_time, False)  # False has votex
+            p, keyboard[keys.J], screen, a, cur_time,cnt2, False)  # False has votex
+        the_one.drift_attack(
+            p, keyboard[keys.K], screen, a, cur_time,cnt2)  # False has votex
     for q in this_part:
         q.update()
     if game.show_text:
@@ -258,7 +260,7 @@ def draw_preparation(screen):
         v.x = (i % 3)*222 + ix
         v.y = (i/3)*222 + iy
         v.draw()
-        if v.image == 'check1':
+        if v.image == 'check1s':
             clicked = True
             if i == 0:
                 screen.draw.text('you will have a more colorful life\n(more powerful when use skills)', midtop=(
@@ -277,7 +279,7 @@ def draw_preparation(screen):
 
             screen.draw.filled_circle(rand_pos(), 10, rand_color())
     screen.draw.text('Please click on the Phalanx on the left.\nYou have three chances.', midtop=(
-        WIDTH*3//4, HEIGHT // 5), fontsize=30, color='maroon')
+        WIDTH*3//4, HEIGHT // 5), fontsize=35, color='maroon')
 
 
 def update(dt):
@@ -300,10 +302,10 @@ def update(dt):
 
 def draw_info(screen):
     cur_row = 0
-    btn = Button(screen, f'wyl hp = {the_one.hp}', (0, 0), the_one.hp, 22)
+    btn = Button(screen, f'HP : {the_one.hp}', (0, 0), the_one.hp, 22)
     btn.draw_button()
     cur_row += 23
-    btn = Button(screen, f'wyl mp = {the_one.mp}',
+    btn = Button(screen, f'MP : {the_one.mp}',
                  (0, cur_row), the_one.mp, 22)
     btn.draw_button()
     cur_row += 13
@@ -312,7 +314,7 @@ def draw_info(screen):
         btn2 = Button(
             screen, f'{p.name}[{cur_row//25}] hp = {p.hp}', (0, cur_row), p.hp/6, 15)
         btn2.draw_button(15)
-
+    screen.draw.text(f'{int(cur_time)}s',topright=(WIDTH,0))
 
 def draw_confront():
     bg = confront_BackGround(Actor('bg6'))
@@ -342,10 +344,16 @@ def draw_start(screen):
         # screen.draw.text(f'wyl{pos}',midtop = pos)
         screen.draw.text(f'{randtexts[i]}',midtop = pos,color = randcolors[i+2])
     start_pic.draw()
+    # texts = []
     text = Actor('text1s',midtop = (WIDTH//2+120,HEIGHT//5-99),anchor=(99,99))
+    text2 = Actor('text2',midtop = randposes[10],anchor=(99,99))
+    text3 = Actor('text3',midtop = randposes[22],anchor=(99,99))
     if cnt % 2:
         text.angle += randint(-3,3) 
-    text.draw() 
+    texts = [text,text2,text3]
+    for t in texts:
+        t.draw() 
+
 def draw():
     global TITLE
     screen.clear()
@@ -370,6 +378,7 @@ def draw():
 
 
 def on_mouse_down(pos):
+    global vortex,vortexs
     print(f"you just click{pos}")
     if not game.on:
         if start_pic.collidepoint(pos):
@@ -382,7 +391,7 @@ def on_mouse_down(pos):
             return
         for v in vortex:
             if v.collidepoint(pos):
-                v.image = 'check1'
+                v.image = 'check1s'
                 game.click_cnt += 1
     #
 
@@ -452,7 +461,11 @@ def cnter():
     cnt += 1
     if game.show_text:
         clock.schedule(shuttext, 0.3)
-
-
+cnt2 = 0
+def cnter2():
+    global cnt2 
+    cnt2 += 1
+    print(cnt2) 
 clock.schedule_interval(cnter, 0.3)
+clock.schedule_interval(cnter2, 2)
 pgzrun.go()
