@@ -342,8 +342,9 @@ def draw_start(screen):
         # screen.draw.text(f'wyl{pos}',midtop = pos)
         screen.draw.text(f'{randtexts[i]}',midtop = pos,color = randcolors[i+2])
     start_pic.draw()
-    text = Actor('text1s',midtop = (WIDTH//2+120,HEIGHT//5-99))
-    text.angle += randint(-3,3) 
+    text = Actor('text1s',midtop = (WIDTH//2+120,HEIGHT//5-99),anchor=(99,99))
+    if cnt % 2:
+        text.angle += randint(-3,3) 
     text.draw() 
 def draw():
     global TITLE
@@ -447,11 +448,11 @@ def shuttext():
 
 def cnter():
     global cnt
-    print(cnt)
+    # print(cnt)
     cnt += 1
     if game.show_text:
-        clock.schedule(shuttext, 1)
+        clock.schedule(shuttext, 0.3)
 
 
-clock.schedule_interval(cnter, 1.0)
+clock.schedule_interval(cnter, 0.3)
 pgzrun.go()
