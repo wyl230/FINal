@@ -62,12 +62,13 @@ class Skill:
         this_part.append(o)
         return o.pos()
 
-    def drift(self, me, other, e, cur_time,another = True):
+    def drift(self, me, other, e, cur_time, another=True):
         # 单次攻击
         f, t = me.ac.pos, other.ac.pos
         # print(f, t)
-        e.show_effects(f, t, cur_time,another)
+        e.show_effects(f, t, cur_time, another)
         e.real_effects(me, other, self)
+
 
 class Pet:
     def __init__(self, ac):
@@ -75,18 +76,21 @@ class Pet:
 
 
 class Role:
-    def __init__(self, ac,name = 'the cutest', skills=None, hp=1000, mp=1000):
-        self.name = name 
+    def __init__(self, ac, name='the cutest', skills=None, hp=1000, mp=1000):
+        self.name = name
         self.skills = skills
-        self.mp = mp
         self.ac = ac
+        self.mp = mp + randint(-100, 100)
+        self.hp = hp + randint(-100, 100)
         self.maxHP = hp
         self.maxMP = mp
-        self.hp = hp
-        self.lx,self.ly,self.last_angle = 0,0,0 
+        self.lx, self.ly, self.last_angle = 0, 0, 0
         # self.skills = ['walk']
         self.spinning = False
         self.has_scherm = False
+
+    def auto_atk(self):
+        pass
 
     def keep_pets(self, ac):
         self.pet = ac
@@ -98,14 +102,14 @@ class Role:
         if self.spinning:
             self.ac.angle += 1
 
-    def drift_attack(self, other, J, screen, skill, cur_time, another = True,consume=10):
+    def drift_attack(self, other, J, screen, skill, cur_time, another=True, consume=10):
         if not J or self.mp <= consume:
             return
         e = Effect(self.ac.pos)
-        skill.drift(self, other, e, cur_time,another)
+        skill.drift(self, other, e, cur_time, another)
 
     def release_attack(self, other, Q, screen, consume=1):
-        if (not Q )or self.mp <= consume:
+        if (not Q)or self.mp <= consume:
             return
         self.mp -= consume
         for point in around_pos(self.ac.pos):
@@ -129,42 +133,42 @@ class Role:
             self.spinning = False
         if u:
             self.ac.y -= mainspeed
-            if not is_in(self.ac.x,self.ac.y):
+            if not is_in(self.ac.x, self.ac.y):
                 self.ac.y += mainspeed
         if d:
             self.ac.y += mainspeed
-            if not is_in(self.ac.x,self.ac.y):
+            if not is_in(self.ac.x, self.ac.y):
                 self.ac.y -= mainspeed
         if l:
             self.ac.x -= mainspeed
-            if not is_in(self.ac.x,self.ac.y):
+            if not is_in(self.ac.x, self.ac.y):
                 self.ac.x += mainspeed
             else:
                 self.ac.image = 'op1b'
         if r:
             self.ac.x += mainspeed
-            if not is_in(self.ac.x,self.ac.y):
+            if not is_in(self.ac.x, self.ac.y):
                 self.ac.x -= mainspeed
-            else :
+            else:
                 self.ac.image = 'op1d'
-        
+
     def random_walk(self):
         # pass
         def f(): return randint(-10, 10)
         if percent(10):
-            t = f() 
-            self.ac.y += t 
-            self.ac.ly = t 
-            t = f() 
-            self.ac.x += t 
-            self.lx = t 
-            t = randint(-3,3) 
-            self.ac.angle += t 
-            self.ac.last_angle = t 
+            t = f()
+            self.ac.y += t
+            self.ac.ly = t
+            t = f()
+            self.ac.x += t
+            self.lx = t
+            t = randint(-3, 3)
+            self.ac.angle += t
+            self.ac.last_angle = t
         else:
-            self.ac.x += self.lx 
+            self.ac.x += self.lx
             self.ac.y += self.ly
-            self.ac.angle += self.last_angle 
+            self.ac.angle += self.last_angle
         if not is_in(self.ac.x, self.ac.y):
             self.ac.x, self.ac.y = rand_pos()
 

@@ -9,7 +9,6 @@ from rainstorm import *
 from button import *
 from pgzero.actor import Actor
 from pgzero.loaders import sounds
-from pgzero.clock import clock
 from pgzero.keyboard import keys
 from pgzero.rect import Rect, ZRect
 from pgzero.loaders import sounds, images
@@ -30,7 +29,8 @@ cur_time = 0.0
 cnt = 0
 rab_live = True
 start_time = time.time()
-rain = Draw_rain(100,150)
+rain = Draw_rain(100, 150)
+randcolors = [choice(COLORS) for i in range(20)]
 
 
 class Gameclass:
@@ -45,6 +45,8 @@ class Gameclass:
         self.blink = True
         self.n_frames = 0
         self.game_on = False
+        self.preparing = False
+        self.click_cnt = 0
         # self.game_on = True
         self.game_message = 'fine'
         self.reset()
@@ -166,9 +168,10 @@ def update_stars(dt):
 game = Gameclass()
 all_actors = [Actor('poke9', rand_pos()), Actor('poke', rand_pos()), Actor('poke2', rand_pos()), Actor('poke3', rand_pos()), Actor('poke4', rand_pos(
 )), Actor('poke5', rand_pos()), Actor('poke6', rand_pos()), Actor('poke7', rand_pos()), Actor('poke8', rand_pos()), Actor('pokea', rand_pos())]
-the_one = Role(Actor('op1b', rand_pos()),'YOU')
+the_one = Role(Actor('op1b', rand_pos()), 'YOU')
 this_part = []
-opposite = [Role(Actor('pokemon2s', rand_pos()),'cute dragonfly') for _ in range(randint(2, 3))]
+opposite = [Role(Actor('pokemon2s', rand_pos()), 'cute dragonfly')
+            for _ in range(randint(2, 3))]
 add_opst = [Role(choice(all_actors)) for _ in range(5)]
 opposite.extend(add_opst)
 # ef1 = Effect()
@@ -185,7 +188,7 @@ def update_confront():
     # the_one.random_walk() 操控的角色抖动 可用来加大难度
     # 随机出现的屏障
     if percent(3):
-        a.scherm(the_one, the_one.pos(),30)
+        a.scherm(the_one, the_one.pos(), 30)
     for p in opposite:
         p.update()
         p.if_physical_atk(the_one)
@@ -243,11 +246,47 @@ def update2_confront(dt):
         rain.update_rain(dt)
 
 
+def update_preparation():
+    pass
+
+
+def draw_preparation(screen):
+    # screen.draw.filled_circle((WIDTH//5,HEIGHT//4),100,u_color[0])
+    ix, iy = WIDTH//5, HEIGHT//4
+    for i, v in zip(range(len(vortex)), vortex):
+        v.x = (i % 3)*222 + ix
+        v.y = (i/3)*222 + iy
+        v.draw()
+        if v.image == 'check1':
+            clicked = True
+            if i == 0:
+                screen.draw.text('you will have a more colorful life\n(more powerful when use skills)', midtop=(
+                    WIDTH*2//3, HEIGHT // 10), fontsize=30, color=choice(randcolors))
+            elif i == 1:
+                screen.draw.text('you will be full of courage to explore your life.\n(the moving speed increased)', midtop=(
+                    WIDTH*2//3, HEIGHT // 2), fontsize=30, color=choice(randcolors))
+            elif i == 2:
+                screen.draw.text('you will be full of courage to explore your life.\n(the moving speed increased)', midtop=(WIDTH*2//3, 2*HEIGHT // 5), fontsize=30, color =choice(randcolors))
+            elif i == 3:
+                screen.draw.text('you will be full of courage to explore your life.\n(the moving speed increased)', midtop=(
+                    WIDTH*3//7, 3*HEIGHT // 5), fontsize=30, color=choice(randcolors))
+            elif i == 4:
+                screen.draw.text('you will be full of courage to explore your life.\n(the moving speed increased)', midtop=(
+                    WIDTH*5//7, 4*HEIGHT // 5), fontsize=30, color=choice(randcolors))
+
+            screen.draw.filled_circle(rand_pos(), 10, rand_color())
+    screen.draw.text('Please click on the Phalanx on the left.\nYou have three chances.', midtop=(
+        WIDTH*3//4, HEIGHT // 5), fontsize=30, color='maroon')
+
+
 def update(dt):
     if not game.on:
         update_stars(dt)
         pos_update()
         return
+    if game.preparing:
+        update_preparation()
+        update_stars(dt)
     if game.confronting:
         update2_confront(dt)
         # update_confront() 在这里调用不能draw
@@ -308,6 +347,10 @@ def draw():
         # screen.blit('background',(0,0))
         #
         return
+    if game.preparing:
+        draw_preparation(screen)
+        draw_stars()
+        return
     if game.confronting:
         TITLE = 'nothing can be done now..'
         draw_confront()
@@ -321,8 +364,17 @@ def on_mouse_down(pos):
     print(f"you just click{pos}")
     if not game.on:
         if start_pic.collidepoint(pos):
+            game.preparing = True
             game.on = True
         return
+    if game.preparing:
+        if game.click_cnt >= 5:
+            game.preparing = False
+            return
+        for v in vortex:
+            if v.collidepoint(pos):
+                v.image = 'check1'
+                game.click_cnt += 1
     #
 
 # def move_key_board(key):
@@ -334,14 +386,18 @@ def on_mouse_down(pos):
 
 
 def on_mouse_move(pos):
+    global centerx, centery
     if not game.on:
         if start_pic.collidepoint(pos):
             start_pic.angle = randint(-13, 13)
         else:
             start_pic.angle = 0
-            global centerx, centery
             centerx, centery = pos
         return
+    if game.preparing:
+        centerx, centery = pos
+        return
+
     #
 
 
