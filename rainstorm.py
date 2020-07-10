@@ -35,7 +35,7 @@ class Drop():
         )
 class Draw_rain():
     global u_color
-    def __init__(self,x_density = 44,y_density = 100):
+    def __init__(self,x_density = 10,y_density = 100):
         self.drops = [Drop((x,y)) for x in range(1000)[::x_density] for y in range(1000)[::y_density]]
     def draw_rain(self,screen):
         # screen.clear() 
@@ -47,7 +47,7 @@ class Draw_rain():
         # warp_factor = (
         #     MIN_WRAP_FACTOR + (warp_factor - MIN_WRAP_FACTOR) * DRAG ** dt
         # )
-        while len(self.drops) < 100:
+        while len(self.drops) < 1000:
             speed = 255 * uniform(0.3,1.0)  ** 2 
 
             dx = 1 
